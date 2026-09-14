@@ -1,3 +1,4 @@
+cat << 'EOF' > Jenkinsfile
 pipeline {
     agent any
 
@@ -12,7 +13,7 @@ pipeline {
             steps {
                 sh '''
                 docker rm -f jenkins || true
-                docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG .
+                docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG cast-service/
                 '''
             }
         }
@@ -100,3 +101,4 @@ pipeline {
         }
     }
 }
+EOF
