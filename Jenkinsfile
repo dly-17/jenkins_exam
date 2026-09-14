@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        BRANCH_NAME = "master"
         DOCKER_ID = "dly17"
         DOCKER_IMAGE = "jenkins-exam"
         DOCKER_TAG = "v.${BUILD_ID}.0"
@@ -79,14 +80,17 @@ pipeline {
 
         stage('Deploy Prod') {
             when {
-                branch 'master'
+                anyOf {
+                    branch 'master'
+                    expression { return env.GIT_BRANCH == 'origin/master' || env.GIT_BRANCH == 'master' }
+                }
             }
             environment {
                 KUBECONFIG = credentials("config")
             }
             steps {
                 timeout(time: 15, unit: "MINUTES") {
-                    input message: 'Déployer en production ?', ok: 'Oui'
+                    input message: 'Déployer en Prod ?', ok: 'Oui'
                 }
                 sh '''
                 rm -Rf ~/.kube/
