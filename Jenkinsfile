@@ -1,4 +1,3 @@
-cat << 'EOF' > Jenkinsfile
 pipeline {
     agent any
 
@@ -101,4 +100,3 @@ pipeline {
         }
     }
 }
-EOF
